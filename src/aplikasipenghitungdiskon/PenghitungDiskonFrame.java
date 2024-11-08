@@ -113,6 +113,11 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
         jPanel3.add(jComboBox2, gridBagConstraints);
 
         jTextField2.setPreferredSize(new java.awt.Dimension(200, 26));
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField2KeyTyped(evt);
+            }
+        });
         jPanel3.add(jTextField2, new java.awt.GridBagConstraints());
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("TOTAL BAYAR"));
@@ -256,6 +261,14 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
        jComboBox1.setSelectedIndex(0);
        jComboBox2.setSelectedIndex(0);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)){
+        JOptionPane.showMessageDialog(null, "Masukkan hanya Angka(0-9)!");   
+        evt.consume();
+        }
+    }//GEN-LAST:event_jTextField2KeyTyped
 
     /**
      * @param args the command line arguments
