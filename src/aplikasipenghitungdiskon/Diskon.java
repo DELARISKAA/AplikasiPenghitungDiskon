@@ -10,39 +10,78 @@ package aplikasipenghitungdiskon;
  * @author user
  */
 public class Diskon {
-    private double harga;  // Diskon yang diinput secara manual
-    private String metodePembayaran;
+    private double diskonpersen;
+    private String kodekupon;
+    private double harga;
 
-    public Diskon(double harga, String metodePembayaran) {
+    Diskon(double harga, int diskonpersen, String kodeKupon) {
+        this.diskonpersen = diskonpersen;
+        this.kodekupon = kodekupon;
         this.harga = harga;
-        this.metodePembayaran = metodePembayaran;
     }
     
-    private double getDiskonBerdasarkanHarga() {
-        if (harga > 1000000) {
-            return 15; // Diskon 15% jika harga lebih dari 1 juta
-        } else if (harga > 500000) {
-            return 10; // Diskon 10% jika harga lebih dari 500 ribu
+    private double getDiskonPresentase() {
+        if (diskonpersen == 5) {
+            return 5; 
+        } else if ( diskonpersen == 10) {
+            return 10; 
+        }else if ( diskonpersen == 15) {
+            return 15; 
+        }else if ( diskonpersen == 20) {
+            return 20; 
+        }else if ( diskonpersen == 25) {
+            return 25; 
+        }else if ( diskonpersen== 30) {
+            return 30; 
+        }else if ( diskonpersen == 35) {
+            return 35; 
+        }else if ( diskonpersen == 40) {
+            return 40; 
+        }else if ( diskonpersen == 45) {
+            return 45; 
+        }else if ( diskonpersen == 50) {
+            return 50; 
+        }else if ( diskonpersen == 55) {
+            return 55; 
+        }else if ( diskonpersen == 60) {
+            return 60; 
+        }else if ( diskonpersen == 65) {
+            return 65; 
+        }else if ( diskonpersen == 70) {
+            return 70; 
+        }else if ( diskonpersen == 75) {
+            return 75; 
+        }else if ( diskonpersen == 80) {
+            return 80; 
+        }else if ( diskonpersen == 85) {
+            return 85; 
+        }else if ( diskonpersen == 90) {
+            return 90; 
+        }else if ( diskonpersen == 95) {
+            return 95; 
+        }else if ( diskonpersen == 100) {
+            return 100; 
         }
-        return 0; // Tidak ada diskon jika harga kurang dari atau sama dengan 500 ribu
+        return 0;
     }
 
     // Mendapatkan diskon berdasarkan metode pembayaran
-    private double getDiskonMetode() {
-        switch (metodePembayaran.toLowerCase()) {
-            case "cash":
+    private double getDiskonKupon() {
+       switch (kodekupon.toLowerCase()) {
+            case "001":
                 return 10;
-            case "debit":
+            case "002":
                 return 5;
             default:
                 return 0;
-        }
+        } 
+        
     }
 
     // Menghitung total diskon (diskon input + diskon metode)
     public double hitungTotalDiskon() {
-        double totalDiskonPersen = getDiskonBerdasarkanHarga() + getDiskonMetode();
-        return harga * totalDiskonPersen / 100;
+        double totalDiskon = getDiskonPresentase() + getDiskonKupon();
+        return harga * totalDiskon / 100;
     }
 
     // Menghitung harga setelah diskon

@@ -7,6 +7,8 @@ package aplikasipenghitungdiskon;
 
 import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,12 +16,17 @@ import javax.swing.table.DefaultTableModel;
  * @author user
  */
 public class PenghitungDiskonFrame extends javax.swing.JFrame {
+    
+    DefaultTableModel dtm;
 
     /**
      * Creates new form PenghitungDiskonFrame
      */
     public PenghitungDiskonFrame() {
         initComponents();
+        dtm = (DefaultTableModel) tabel.getModel();
+        SpinnerNumberModel jdiskon = new SpinnerNumberModel(0, 0, 100, 1); // nilai awal 0, min 0, max 100, step 1
+        JSpinner diskon2 = new JSpinner(jdiskon);
     }
 
     /**
@@ -32,14 +39,17 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
+        diskon1 = new javax.swing.JComboBox<>();
+        diskon2 = new javax.swing.JSlider();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        kodediskon = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -50,13 +60,15 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        namabarang = new javax.swing.JTextField();
+        jenisbarang = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        hargabarang = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        totalbayar = new javax.swing.JTextField();
+        totaldiskon = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 204));
@@ -81,39 +93,55 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
             }
         });
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("HARGA DAN PEMBAYARAN"));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("DISKON"));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        jLabel4.setText("Harga Barang :");
-        jPanel3.add(jLabel4, new java.awt.GridBagConstraints());
-
-        jLabel6.setText("Metode :");
+        jLabel6.setText("Diskon1       :");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 1;
         jPanel3.add(jLabel6, gridBagConstraints);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----Pilih Metode Pembayaran----", "Cash", "Debit" }));
-        jComboBox2.setMinimumSize(new java.awt.Dimension(200, 26));
-        jComboBox2.setPreferredSize(new java.awt.Dimension(200, 26));
+        diskon1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0%", "5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%", "80%", "85%", "90%", "95%", "100%" }));
+        diskon1.setMinimumSize(new java.awt.Dimension(200, 26));
+        diskon1.setPreferredSize(new java.awt.Dimension(200, 26));
+        diskon1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diskon1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        jPanel3.add(jComboBox2, gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        jPanel3.add(diskon1, gridBagConstraints);
 
-        jTextField2.setPreferredSize(new java.awt.Dimension(200, 26));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField2KeyTyped(evt);
-            }
-        });
-        jPanel3.add(jTextField2, new java.awt.GridBagConstraints());
+        diskon2.setMinimumSize(new java.awt.Dimension(200, 26));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        jPanel3.add(diskon2, gridBagConstraints);
 
+        jLabel4.setText("Diskon2        :");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        jPanel3.add(jLabel4, gridBagConstraints);
+
+        jLabel5.setText("Kode Diskon         :");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        jPanel3.add(jLabel5, gridBagConstraints);
+
+        kodediskon.setMinimumSize(new java.awt.Dimension(200, 26));
+        kodediskon.setPreferredSize(new java.awt.Dimension(200, 26));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        jPanel3.add(kodediskon, gridBagConstraints);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setPreferredSize(new java.awt.Dimension(500, 26));
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
@@ -160,17 +188,14 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        jPanel6.add(jButton4, gridBagConstraints);
+        jPanel6.add(jButton4, new java.awt.GridBagConstraints());
 
         tabel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nama Barang", "Jenis", "Harga", "Metode", "Diskon", "Total Pembayaran"
+                "Nama Barang", "Jenis", "Harga", "Total Diskon", "Total Pembayaran"
             }
         ));
         tabel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -180,6 +205,7 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabel);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DATA BARANG"));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -192,36 +218,64 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         jPanel1.add(jLabel3, gridBagConstraints);
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(200, 26));
-        jPanel1.add(jTextField1, new java.awt.GridBagConstraints());
+        namabarang.setPreferredSize(new java.awt.Dimension(200, 26));
+        jPanel1.add(namabarang, new java.awt.GridBagConstraints());
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Pilih Jenis Barang--", "Elektronik", "Rumah Tangga", "Konstruksi", "Pendidikan", "Bisnis" }));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(200, 26));
+        jenisbarang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Pilih Jenis Barang--", "Elektronik", "Rumah Tangga", "Konstruksi", "Pendidikan", "Bisnis" }));
+        jenisbarang.setPreferredSize(new java.awt.Dimension(200, 26));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        jPanel1.add(jComboBox1, gridBagConstraints);
+        jPanel1.add(jenisbarang, gridBagConstraints);
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("TOTAL PEMBAYARAN"));
+        jLabel10.setText("Harga Barang:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        jPanel1.add(jLabel10, gridBagConstraints);
+
+        hargabarang.setPreferredSize(new java.awt.Dimension(200, 26));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        jPanel1.add(hargabarang, gridBagConstraints);
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("PEMBAYARAN"));
+        jPanel5.setMinimumSize(new java.awt.Dimension(200, 81));
+        jPanel5.setPreferredSize(new java.awt.Dimension(200, 81));
         jPanel5.setLayout(new java.awt.GridBagLayout());
-
-        jLabel5.setText("Total Diskon :");
-        jPanel5.add(jLabel5, new java.awt.GridBagConstraints());
 
         jLabel7.setText("Total Pembayaran :");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 6;
         jPanel5.add(jLabel7, gridBagConstraints);
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(200, 26));
-        jPanel5.add(jTextField3, new java.awt.GridBagConstraints());
+        jLabel9.setText("Total Diskon         :");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        jPanel5.add(jLabel9, gridBagConstraints);
 
-        jTextField4.setPreferredSize(new java.awt.Dimension(200, 26));
+        totalbayar.setMinimumSize(new java.awt.Dimension(200, 26));
+        totalbayar.setPreferredSize(new java.awt.Dimension(200, 26));
+        totalbayar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalbayarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        jPanel5.add(jTextField4, gridBagConstraints);
+        gridBagConstraints.gridy = 6;
+        jPanel5.add(totalbayar, gridBagConstraints);
+
+        totaldiskon.setMinimumSize(new java.awt.Dimension(200, 26));
+        totaldiskon.setPreferredSize(new java.awt.Dimension(200, 26));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        jPanel5.add(totaldiskon, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -229,31 +283,31 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 867, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(193, 193, 193)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(32, 32, 32)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -267,8 +321,8 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(1, 1, 1)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -294,50 +348,57 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-    // Ambil nilai harga, diskon manual, dan metode pembayaran dari GUI
-    double harga = Double.parseDouble(jTextField2.getText());
-    String metodePembayaran = jComboBox2.getSelectedItem().toString();
+        // Mengambil data input dari pengguna
+        String namaBarang = namabarang.getText(); // Nama barang
+        double harga = Double.parseDouble(hargabarang.getText()); // Harga barang
+        int selectedDiscount = 0; // Untuk menyimpan nilai diskon yang dipilih
 
-    // Buat objek Diskon dengan data input
-    Diskon diskon = new Diskon(harga, metodePembayaran);
+        if (diskon1.isEnabled()) {
+        // Mengambil diskon dari JComboBox jika ComboBox aktif
+        String selectedDiscountText = (String) diskon1.getSelectedItem();
+        selectedDiscount = Integer.parseInt(selectedDiscountText.replace("%", ""));
+    } else if (diskon2.isEnabled()) {
+        // Mengambil diskon dari JSpinner jika Spinner aktif
+        selectedDiscount = (Integer) diskon2.getValue(); // Mengambil nilai dari JSpinner
+    }
 
-    // Hitung total diskon dan harga setelah diskon
-    double totalDiskon = diskon.hitungTotalDiskon();
-    double totalHarga = diskon.hitungHargaSetelahDiskon();
+        // Mengambil kode kupon dari input
+        String kode = (String) kodediskon.getText(); // Misalnya kode kupon dipilih melalui JComboBox
 
-    // Tampilkan hasil di TextField
-    jTextField3.setText("Rp " + totalDiskon);
-    jTextField4.setText("Rp " + totalHarga);
+        // Menghitung jumlah diskon
+        double jumlahdiskon = harga * selectedDiscount / 100.0;
+        double totalpembayaran = harga - jumlahdiskon;
 
-} catch (NumberFormatException e) {
-    // Tampilkan pesan jika input tidak valid
-    JOptionPane.showMessageDialog(null, "Harap Isi Dengan Data yang Valid", "Input Tidak Valid", JOptionPane.ERROR_MESSAGE);
-}
+        double kuponDiskon = 0.0;
+        if (kode != null && !kode.isEmpty()) { // Pastikan kode kupon tidak kosong
+        if (kode.equals("DISKON01")) {
+            kuponDiskon = 10.0; // Diskon 10% jika kode kuponnya DISKON10
+        } else if (kode.equals("DISKON02")) {
+            kuponDiskon = 20.0; // Diskon 20% jika kode kuponnya DISKON20
+        }
+        }
 
+        // Menghitung diskon berdasarkan kupon
+        double totalDiskonKupon = harga * kuponDiskon / 100.0;
+        totalpembayaran -= totalDiskonKupon; // Mengurangi total pembayaran dengan diskon kupon
 
+        // Menampilkan hasil perhitungan
+        totaldiskon.setText(String.format("%.2f", jumlahdiskon + totalDiskonKupon)); // Jumlah diskon termasuk kupon
+        totalbayar.setText(String.format("%.2f", totalpembayaran)); // Total pembayaran setelah diskon
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Masukkan harga yang valid.", "Error Input", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-        jComboBox1.setSelectedIndex(0);
-        jComboBox2.setSelectedIndex(0);
- 
+        namabarang.setText("");
+        jenisbarang.setSelectedItem(0);
+        hargabarang.setText("");
+        diskon1.setSelectedItem(0);
+        totaldiskon.setText("");
+        totalbayar.setText("");
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
-        char c = evt.getKeyChar();
-        if (!Character.isDigit(c)){
-        JOptionPane.showMessageDialog(null, "Masukkan hanya Angka(0-9)!");   
-        evt.consume();
-        }
-    }//GEN-LAST:event_jTextField2KeyTyped
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        
-    }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
        
@@ -348,11 +409,18 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4ComponentShown
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
-        DefaultTableModel model = (DefaultTableModel)tabel.getModel();
-        model.addRow(new Object[] {jTextField1.getText(), jComboBox1.getSelectedItem(),
-        jTextField2.getText(), jComboBox2.getSelectedItem(), jTextField3.getText(), jTextField4.getText()});
+        tabel.setModel(dtm);
+        String[] data = {namabarang.getText(), jenisbarang.getSelectedItem().toString(), hargabarang.getText(), totaldiskon.getText(), totalbayar.getText()};
+        dtm.addRow(data);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void totalbayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalbayarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalbayarActionPerformed
+
+    private void diskon1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diskon1ActionPerformed
+
+    }//GEN-LAST:event_diskon1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -364,24 +432,31 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new PenghitungDiskonFrame().setVisible(true);
+                JSpinner jdiskon = null;
+                JSpinner.NumberEditor editor = new JSpinner.NumberEditor(jdiskon, "#0%");
+                jdiskon.setEditor(editor);
             }
         });
     } 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> diskon1;
+    private javax.swing.JSlider diskon2;
+    private javax.swing.JTextField hargabarang;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -389,11 +464,13 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JComboBox<String> jenisbarang;
+    private javax.swing.JTextField kodediskon;
+    private javax.swing.JTextField namabarang;
     private javax.swing.JTable tabel;
+    private javax.swing.JTextField totalbayar;
+    private javax.swing.JTextField totaldiskon;
     // End of variables declaration//GEN-END:variables
+
 
 }
