@@ -25,8 +25,7 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
     public PenghitungDiskonFrame() {
         initComponents();
         dtm = (DefaultTableModel) tabel.getModel();
-        SpinnerNumberModel jdiskon = new SpinnerNumberModel(0, 0, 100, 1); // nilai awal 0, min 0, max 100, step 1
-        JSpinner diskon2 = new JSpinner(jdiskon);
+        
     }
 
     /**
@@ -69,6 +68,8 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         totalbayar = new javax.swing.JTextField();
         totaldiskon = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        diskon = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 204));
@@ -117,6 +118,20 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
         jPanel3.add(diskon1, gridBagConstraints);
 
         diskon2.setMinimumSize(new java.awt.Dimension(200, 26));
+        diskon2.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                diskon2AncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        diskon2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                diskon2StateChanged(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -277,6 +292,13 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 4;
         jPanel5.add(totaldiskon, gridBagConstraints);
 
+        jLabel8.setText("Diskon                 :");
+        jPanel5.add(jLabel8, new java.awt.GridBagConstraints());
+
+        diskon.setMinimumSize(new java.awt.Dimension(200, 26));
+        diskon.setPreferredSize(new java.awt.Dimension(200, 26));
+        jPanel5.add(diskon, new java.awt.GridBagConstraints());
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -348,27 +370,20 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-        // Mengambil data input dari pengguna
         String namaBarang = namabarang.getText(); // Nama barang
         double harga = Double.parseDouble(hargabarang.getText()); // Harga barang
         int selectedDiscount = 0; // Untuk menyimpan nilai diskon yang dipilih
 
         if (diskon1.isEnabled()) {
-        // Mengambil diskon dari JComboBox jika ComboBox aktif
         String selectedDiscountText = (String) diskon1.getSelectedItem();
         selectedDiscount = Integer.parseInt(selectedDiscountText.replace("%", ""));
     } else if (diskon2.isEnabled()) {
-        // Mengambil diskon dari JSpinner jika Spinner aktif
-        selectedDiscount = (Integer) diskon2.getValue(); // Mengambil nilai dari JSpinner
+        selectedDiscount = (Integer) diskon2.getValue(); // Mengambil nilai dari JSlider
     }
-
-        // Mengambil kode kupon dari input
-        String kode = (String) kodediskon.getText(); // Misalnya kode kupon dipilih melalui JComboBox
-
-        // Menghitung jumlah diskon
         double jumlahdiskon = harga * selectedDiscount / 100.0;
         double totalpembayaran = harga - jumlahdiskon;
 
+        String kode = (String) kodediskon.getText(); 
         double kuponDiskon = 0.0;
         if (kode != null && !kode.isEmpty()) { // Pastikan kode kupon tidak kosong
         if (kode.equals("DISKON01")) {
@@ -378,7 +393,6 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
         }
         }
 
-        // Menghitung diskon berdasarkan kupon
         double totalDiskonKupon = harga * kuponDiskon / 100.0;
         totalpembayaran -= totalDiskonKupon; // Mengurangi total pembayaran dengan diskon kupon
 
@@ -422,6 +436,15 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_diskon1ActionPerformed
 
+    private void diskon2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_diskon2AncestorAdded
+
+    }//GEN-LAST:event_diskon2AncestorAdded
+
+    private void diskon2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_diskon2StateChanged
+        int selectedDiscount = diskon2.getValue();
+        diskon.setText(selectedDiscount + "%");
+    }//GEN-LAST:event_diskon2StateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -433,14 +456,13 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
             public void run() {
                 new PenghitungDiskonFrame().setVisible(true);
                 JSpinner jdiskon = null;
-                JSpinner.NumberEditor editor = new JSpinner.NumberEditor(jdiskon, "#0%");
-                jdiskon.setEditor(editor);
             }
         });
     } 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField diskon;
     private javax.swing.JComboBox<String> diskon1;
     private javax.swing.JSlider diskon2;
     private javax.swing.JTextField hargabarang;
@@ -456,6 +478,7 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
