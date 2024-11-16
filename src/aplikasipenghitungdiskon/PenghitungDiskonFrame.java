@@ -6,6 +6,7 @@
 package aplikasipenghitungdiskon;
 
 import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -378,7 +379,7 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
         String selectedDiscountText = (String) diskon1.getSelectedItem();
         selectedDiscount = Integer.parseInt(selectedDiscountText.replace("%", ""));
     } else if (diskon2.isEnabled()) {
-        selectedDiscount = (Integer) diskon2.getValue(); // Mengambil nilai dari JSlider
+        selectedDiscount = (Integer) diskon2.getValue();
     }
         double jumlahdiskon = harga * selectedDiscount / 100.0;
         double totalpembayaran = harga - jumlahdiskon;
@@ -443,6 +444,13 @@ public class PenghitungDiskonFrame extends javax.swing.JFrame {
     private void diskon2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_diskon2StateChanged
         int selectedDiscount = diskon2.getValue();
         diskon.setText(selectedDiscount + "%");
+         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement(selectedDiscount+"%");
+        for (int i = 10; i <= 50; i += 10) {
+            model.addElement(String.valueOf(i+"%"));
+        }
+        diskon1.setModel(model);
+        diskon1.setSelectedItem(String.valueOf(selectedDiscount));  
     }//GEN-LAST:event_diskon2StateChanged
 
     /**
